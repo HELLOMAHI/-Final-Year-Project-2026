@@ -56,7 +56,7 @@ async function getAIAdvice(){
       .filter(t => t.type === 'expense')
       .reduce((s,t)=>s+t.amount,0);
 
-    const res = await fetch("http://localhost:5000/ai", {
+    const res = await fetch("spendsmart-backend-3rqd.onrender.com/ai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -132,7 +132,7 @@ async function getReportAI(){
       categories[t.category] = (categories[t.category] || 0) + t.amount;
     });
 
-  const res = await fetch("http://localhost:5000/report-ai", {
+  const res = await fetch("spendsmart-backend-3rqd.onrender.com/report-ai", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
