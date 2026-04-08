@@ -1,0 +1,17 @@
+# Environment variables (VERY IMPORTANT)
+.env
+.env.*
+backend/.env
+
+# Node modules (heavy + useless for repo)
+node_modules/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code settings (optional)
+.vscode/
