@@ -64,7 +64,7 @@ async function getAIAdvice(){
       body: JSON.stringify({
         income,
         expense,
-        category: "General"
+        categories: { General: expense }
       })
     });
 
