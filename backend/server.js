@@ -16,12 +16,13 @@ const client = new OpenAI({
 });
 
 app.post("/report-ai", (req, res) => {
+  console.log("API HIT"); // 👈 ADD THIS
+
   const { income, expense, categories } = req.body;
 
   const savings = income - expense;
   const savingsRate = income > 0 ? Math.round((savings / income) * 100) : 0;
 
-  // 🔹 Find top category
   let topCategory = null;
   let max = 0;
 
@@ -36,22 +37,19 @@ app.post("/report-ai", (req, res) => {
 
   res.json({
     summary: `Your total savings this month is ₹${savings}, which represents ${savingsRate}% of your income.`,
-    
     breakdown: topCategory
       ? `The highest portion of your spending is in "${topCategory}" totaling ₹${max}, which is ${percent}% of your income.`
       : "Not enough data to determine spending patterns.",
-
     behavior:
       expense < income * 0.5
-        ? "Your expenses are well controlled relative to your income. This indicates strong financial discipline."
+        ? "Your expenses are well controlled relative to your income."
         : expense > income * 0.8
-        ? "Your expenses are close to your income. This may affect long-term savings."
-        : "Your spending is moderate and manageable.",
-
+        ? "Your expenses are close to your income."
+        : "Your spending is moderate.",
     recommendation:
       savingsRate < 20
-        ? "Try to maintain a savings rate of at least 20% by reducing non-essential expenses."
-        : "You are in a good position to increase savings or start investing regularly."
+        ? "Try to save at least 20%."
+        : "You are in a good position to invest."
   });
 });
 app.listen(5000, () => console.log("Server running on 5000"));
