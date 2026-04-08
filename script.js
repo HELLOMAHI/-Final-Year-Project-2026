@@ -56,7 +56,7 @@ async function getAIAdvice(){
       .filter(t => t.type === 'expense')
       .reduce((s,t)=>s+t.amount,0);
 
-    const res = await fetch("spendsmart-backend-3rqd.onrender.com/ai", {
+    const res = await fetch("https://spendsmart-backend-3rqd.onrender.com/report-ai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
