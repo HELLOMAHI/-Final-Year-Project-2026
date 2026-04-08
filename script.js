@@ -132,7 +132,7 @@ async function getReportAI(){
       categories[t.category] = (categories[t.category] || 0) + t.amount;
     });
 
-  const res = await fetch("spendsmart-backend-3rqd.onrender.com/report-ai", {
+  const res = await fetch("https://spendsmart-backend-3rqd.onrender.com/report-ai", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
