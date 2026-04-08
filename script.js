@@ -131,7 +131,7 @@ async function getReportAI(){
     .forEach(t => {
       categories[t.category] = (categories[t.category] || 0) + t.amount;
     });
-
+   
   const res = await fetch("https://spendsmart-backend-3rqd.onrender.com/report-ai", {
     method: "POST",
     headers: {
@@ -145,7 +145,7 @@ async function getReportAI(){
   });
 
   const data = await res.json();
-
+  console.log(data); 
 document.getElementById("ai-report-text").innerHTML = `
   <div class="ai-sec">
     <div class="ai-head">Your Financial Summary</div>
