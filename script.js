@@ -118,55 +118,64 @@ function totalExpense(){
   return state.transactions.filter(t=>t.type==='expense'&&new Date(t.date).getMonth()===m&&new Date(t.date).getFullYear()===y).reduce((s,t)=>s+t.amount,0);
 }
 
-async function getReportAI(){
-  console.log("Report AI clicked");
-  
+let isReportVisible = false;
+
+async function getReportAI() {
   const container = document.getElementById("ai-report-text");
-  if(!container) return;
+  if (!container) return;
+
+  // 👉 TOGGLE LOGIC
+  if (isReportVisible) {
+    container.innerHTML = "";
+    document.getElementById("analyze-btn").innerText = "Analyze Report";
+    isReportVisible = false;
+    return;
+  }
+
   const income = totalIncome();
   const expense = totalExpense();
+
   const categories = {};
   state.transactions
-    .filter(t => t.type === 'expense')
+    .filter(t => t.type === "expense")
     .forEach(t => {
       categories[t.category] = (categories[t.category] || 0) + t.amount;
     });
-   
+
   const res = await fetch("https://spendsmart-backend-3rqd.onrender.com/report-ai", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      income,
-      expense,
-      categories
-    })
+    body: JSON.stringify({ income, expense, categories })
   });
 
   const data = await res.json();
-  console.log(data); 
-document.getElementById("ai-report-text").innerHTML = `
-  <div class="ai-sec">
-    <div class="ai-head">Your Financial Summary</div>
-    <div class="ai-text">${data.summary}</div>
-  </div>
 
-  <div class="ai-sec">
-    <div class="ai-head">Spending Breakdown</div>
-    <div class="ai-text">${data.breakdown}</div>
-  </div>
+  container.innerHTML = `
+    <div class="ai-sec">
+      <div class="ai-head">Your Financial Summary</div>
+      <div class="ai-text">${data.summary}</div>
+    </div>
 
-  <div class="ai-sec">
-    <div class="ai-head">Behavior Analysis</div>
-    <div class="ai-text">${data.behavior}</div>
-  </div>
+    <div class="ai-sec">
+      <div class="ai-head">Spending Breakdown</div>
+      <div class="ai-text">${data.breakdown}</div>
+    </div>
 
-  <div class="ai-sec">
-    <div class="ai-head">Recommendation</div>
-    <div class="ai-text">${data.recommendation}</div>
-  </div>
-`;
+    <div class="ai-sec">
+      <div class="ai-head">Behavior Analysis</div>
+      <div class="ai-text">${data.behavior}</div>
+    </div>
+
+    <div class="ai-sec">
+      <div class="ai-head">Recommendation</div>
+      <div class="ai-text">${data.recommendation}</div>
+    </div>
+  `;
+
+  document.getElementById("analyze-btn").innerText = "Hide Report";
+  isReportVisible = true;
 }
 // ════════════════════════════════════════
 //  AUTH

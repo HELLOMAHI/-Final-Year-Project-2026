@@ -15,7 +15,7 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-app.post("/report-ai", (req, res) => {
+app.post("/report-ai", async (req, res) => {
   console.log("API HIT"); // 👈 ADD THIS
 
   const { income, expense, categories } = req.body;
