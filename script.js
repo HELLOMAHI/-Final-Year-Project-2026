@@ -840,12 +840,12 @@ async function exportPDF(){
   }
 
   element.innerHTML = `
-    <div style="font-family: Arial; padding: 25px; color:#1e293b;">
+    <div style="font-family: Arial; padding: 35px; color:#1e293b;">
 
       <!-- HEADER -->
       <div style="text-align:center; margin-bottom:20px;">
         <div style="font-size:20px; font-weight:700;">
-          Expense Tracker
+          SpendSmart
         </div>
         <div style="font-size:12px; color:#64748b;">
           Smart Financial Report
@@ -902,7 +902,13 @@ async function exportPDF(){
     </div>
   `;
 
-  html2pdf().from(element).save(`Report_${new Date().toLocaleDateString()}.pdf`);
+  html2pdf().set({
+  margin: [15, 10, 15, 10],
+  filename: `Report_${new Date().toLocaleDateString()}.pdf`,
+  html2canvas: { scale: 2 },
+  jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+  pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+}).from(element).save();
 }
 // ════════════════════════════════════════
 //  SAVINGS GOALS

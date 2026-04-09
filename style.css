@@ -532,3 +532,24 @@ a{text-decoration:none;}
 .pdf-btn{
   white-space: nowrap;   /* 🔥 keeps text in one line */
 }
+
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
