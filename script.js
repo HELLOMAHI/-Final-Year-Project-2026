@@ -907,7 +907,7 @@ async function exportPDF(){
   filename: `Report_${new Date().toLocaleDateString()}.pdf`,
   html2canvas: { scale: 2 },
   jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-  pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  pagebreak: { mode: ['css', 'legacy'] }
 }).from(element).save();
 }
 // ════════════════════════════════════════
