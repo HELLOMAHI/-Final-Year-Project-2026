@@ -1089,13 +1089,35 @@ function renderGoals(){
   }).join('');
 }
 
-function addToGoal(id){
-  const inp=document.getElementById('gs-add-'+id);
-  const amt=+inp.value; if(!amt){ return; }
-  const g=state.goals.find(g=>g.id===id);
-  if(g){ g.saved=Math.min(g.target,g.saved+amt); saveUserData(); renderGoals(); showToast('Savings updated! ✓'); }
-}
+async function addToGoal(id){
 
+  const input = document.getElementById("goal-add-" + id);
+  const amount = Number(input.value) || 0;
+
+  if(amount <= 0) return;
+
+  const goal = state.goals.find(g => g.id == id);
+
+  if(!goal) return;
+
+  const newSaved = Number(goal.saved) + amount;
+
+  const { error } = await client
+    .from("goals")
+    .update({ saved: newSaved })
+    .eq("id", id);
+
+  if(error){
+    showToast("Failed to update goal");
+    return;
+  }
+
+  goal.saved = newSaved;
+
+  renderGoals();
+
+  showToast("Goal updated ✓");
+}
 function deleteGoal(id){
   state.goals=state.goals.filter(g=>g.id!==id);
   saveUserData(); renderGoals();
