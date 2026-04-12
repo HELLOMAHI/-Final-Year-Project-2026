@@ -450,6 +450,7 @@ async function enterApp(){
   await loadTransactionsFromDB();
   await loadBudgetsFromDB();
   await loadGoalsFromDB();
+  renderDashboard();
   updateUserUI();
 
   // Set today's date on modals
@@ -798,43 +799,52 @@ function renderBudgetSettings(){
     </div>`).join('');
   renderBudgetBars('budget-usage-list');
 }
-async function loadBudgetsFromDB(){
+async function loadBudgetsFromDB() {
   const { data: sessionData } = await client.auth.getSession();
-  const user = sessionData.session.user;
+  const user = sessionData.session?.user;
+
+  if (!user) return;
 
   const { data, error } = await client
     .from("budgets")
     .select("*")
     .eq("user_id", user.id);
 
-  if(error){
-    console.log(error.message);
+  if (error) {
+    console.log("Budget load error:", error.message);
     return;
   }
 
-  state.budgets = {};
+  if (data && data.length > 0) {
+    const loadedBudgets = {};
 
-  data.forEach(item=>{
-    state.budgets[item.category] = item.amount;
-  });
+    data.forEach(item => {
+      loadedBudgets[item.category] = Number(item.amount);
+    });
+
+    state.budgets = loadedBudgets;
+  }
+
+  console.log("Budgets loaded:", state.budgets);
 }
-
-async function saveBudgets(){
+async function saveBudgets() {
   const { data: sessionData } = await client.auth.getSession();
   const user = sessionData.session.user;
 
-  for(const category in state.budgets){
-
-    await client
-      .from("budgets")
-      .upsert({
+  for (const category in state.budgets) {
+    await client.from("budgets").upsert(
+      {
         user_id: user.id,
         category: category,
-        amount: state.budgets[category]
-      }, {
+        amount: Number(state.budgets[category])
+      },
+      {
         onConflict: "user_id,category"
-      });
+      }
+    );
   }
+
+  renderDashboard();
   showToast('Budgets saved! ✓');
 }
 
