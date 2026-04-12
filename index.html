@@ -192,31 +192,28 @@
 
     <!-- ── TRANSACTIONS ── -->
 <div class="page" id="pg-transactions">
+
   <div class="card">
-    <div class="card-header">
-  <div class="card-header" style="display:flex; align-items:center; justify-content:space-between;">
 
-  <div class="card-title">All Transactions</div>
+    <div class="card-header txn-head">
+      <div class="card-title">Transactions</div>
 
-  <select
-    id="txn-filter"
-    class="form-select"
-    onchange="renderTransactions()"
-    style="width:140px; flex-shrink:0;"
-  >
-    <option value="all">All</option>
-    <option value="income">Income</option>
-    <option value="expense">Expense</option>
-  </select>
+      <select id="txn-filter" class="form-select" onchange="renderTransactions()">
+        <option value="all">All</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+    </div>
 
-</div>
     <div class="card-body" id="transactions-list">
       <div class="empty-state">
         <div class="e-ico">📭</div>
         <p>No transactions yet.</p>
       </div>
     </div>
+
   </div>
+
 </div>
 
     <!-- ── BUDGET ── -->

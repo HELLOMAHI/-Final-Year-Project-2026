@@ -641,3 +641,15 @@ body.dark #cal-title,
 body.dark #cal-headers{
   color:#f8fafc;
 }
+
+.txn-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+#txn-filter{
+  width:140px;
+  height:38px;
+  flex-shrink:0;
+}
