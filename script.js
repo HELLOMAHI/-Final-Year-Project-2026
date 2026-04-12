@@ -790,13 +790,27 @@ function renderExpenses(){
 //  BUDGET SETTINGS
 // ════════════════════════════════════════
 const BUDGET_CATS = ['Food & Snacks','Academic','Transportation','Accommodation','Digital & Tech','Entertainment','Health','Personal','Others'];
-function renderBudgetSettings(){
-  document.getElementById('budget-set-list').innerHTML = BUDGET_CATS.map(g=>`
+function renderBudgetSettings() {
+  document.getElementById('budget-set-list').innerHTML = BUDGET_CATS.map(g => `
     <div class="budget-set-item">
       <div class="budget-set-ico">${catIcon(g)}</div>
       <div class="budget-set-name">${g}</div>
-      <div class="pfx"><span class="sym" style="font-size:13px;">₹</span><input class="budget-set-input" id="bs-${g.replace(/[^a-z]/gi,'')}" type="number" value="${state.budgets[g]||0}" placeholder="0"/></div>
-    </div>`).join('');
+
+      <div class="pfx">
+        <span class="sym" style="font-size:13px;">₹</span>
+
+        <input
+          class="budget-set-input"
+          data-category="${g}"
+          id="bs-${g.replace(/[^a-z]/gi,'')}"
+          type="number"
+          value="${state.budgets[g] || 0}"
+          placeholder="0"
+        />
+      </div>
+    </div>
+  `).join('');
+
   renderBudgetBars('budget-usage-list');
 }
 async function loadBudgetsFromDB() {
@@ -828,6 +842,14 @@ async function loadBudgetsFromDB() {
   console.log("Budgets loaded:", state.budgets);
 }
 async function saveBudgets() {
+
+  document.querySelectorAll(".budget-set-input").forEach(input => {
+    const category = input.dataset.category;
+    const amount = Number(input.value) || 0;
+
+    state.budgets[category] = amount;
+  });
+
   const { data: sessionData } = await client.auth.getSession();
   const user = sessionData.session.user;
 
@@ -836,7 +858,7 @@ async function saveBudgets() {
       {
         user_id: user.id,
         category: category,
-        amount: Number(state.budgets[category])
+        amount: state.budgets[category]
       },
       {
         onConflict: "user_id,category"
@@ -844,6 +866,7 @@ async function saveBudgets() {
     );
   }
 
+  renderBudgetSettings();
   renderDashboard();
   showToast('Budgets saved! ✓');
 }
