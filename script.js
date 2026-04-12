@@ -1254,8 +1254,11 @@ function renderAlerts(){
     const pct=Math.round(g.saved/g.target*100);
     if(pct>=100) alerts.push({ico:'🎉',bg:'var(--green-light)',msg:`Savings goal <strong>${g.name}</strong> reached!`,time:'Goal complete'});
   });
-  document.getElementById('alert-badge').textContent=alerts.filter(a => a.ico === '🔴' || a.ico === '🟡').length||'';
-  document.getElementById('alert-badge').style.display=alerts.length?'':'none';
+  document.getElementById('alert-badge').textContent =
+alerts.filter(a => a.ico === '🔴' || a.ico === '🟡').length || '';
+
+document.getElementById('alert-badge').style.display =
+alerts.filter(a => a.ico === '🔴' || a.ico === '🟡').length ? '' : 'none';
   const el=document.getElementById('alerts-list');
   if(!alerts.length){ el.innerHTML='<div class="empty-state" style="padding:48px 20px;"><div class="e-ico">&#x2705;</div><p>No alerts &mdash; you are on track! Great job.</p></div>'; return; }
   el.innerHTML=alerts.map(a=>`
