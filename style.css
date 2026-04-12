@@ -611,3 +611,33 @@ body.dark .quick-add,
 body.dark .stat-card{
   background:#111827;
 }
+/* DARK MODE CALENDAR FIX */
+
+body.dark .cal-grid > div{
+  background:#0f172a;
+  color:#f8fafc;
+  border:1px solid #334155;
+}
+
+body.dark .cal-grid > div.empty,
+body.dark .cal-grid > div.blank,
+body.dark .cal-day.empty{
+  background:#1e293b;
+  color:#64748b;
+}
+
+body.dark .cal-grid > div.today,
+body.dark .cal-day.today{
+  background:#0d9488;
+  color:white;
+  border-color:#14b8a6;
+}
+
+body.dark .cal-grid > div:hover{
+  background:#1e293b;
+}
+
+body.dark #cal-title,
+body.dark #cal-headers{
+  color:#f8fafc;
+}
