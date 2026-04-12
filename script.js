@@ -849,26 +849,36 @@ async function saveBudgets() {
     state.budgets[category] = amount;
   });
 
-  renderBudgetSettings();
-  renderDashboard();
-
   showToast("Budgets saved! ✓");
 
-  const { data: sessionData } = await client.auth.getSession();
-  const user = sessionData.session.user;
+  setTimeout(async () => {
 
-  for (const category in state.budgets) {
-    await client.from("budgets").upsert(
-      {
-        user_id: user.id,
-        category: category,
-        amount: state.budgets[category]
-      },
-      {
-        onConflict: "user_id,category"
-      }
-    );
-  }
+    renderBudgetSettings();
+    renderDashboard();
+
+    const { data: sessionData } = await client.auth.getSession();
+    const user = sessionData.session.user;
+
+    const promises = [];
+
+    for (const category in state.budgets) {
+      promises.push(
+        client.from("budgets").upsert(
+          {
+            user_id: user.id,
+            category: category,
+            amount: state.budgets[category]
+          },
+          {
+            onConflict: "user_id,category"
+          }
+        )
+      );
+    }
+
+    await Promise.all(promises);
+
+  }, 50);
 }
 
 async function loadGoalsFromDB(){
