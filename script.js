@@ -1082,16 +1082,17 @@ function renderGoals(){
         <div class="prog"><div class="prog-fill ${pct>=100?'fg':pct>=60?'fg':'fa'}" style="width:${pct}%"></div></div>
         <div style="display:flex;gap:8px;margin-top:12px;">
           <input type="number" id="gs-add-${g.id}" placeholder="Add amount" style="flex:1;padding:8px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;"/>
-          <button class="btn btn-teal btn-sm" onclick="addToGoal('${g.id}')">Add ₹</button>
+          <button class="btn btn-teal btn-sm" onclick="addToGoal('${g.id}', this)">Add ₹</button>
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-async function addToGoal(id){
+async function addToGoal(id, btn){
 
-  const input = document.querySelector(`[id="gs-add-${id}"]`);
+  const wrap = btn.parentElement;
+  const input = wrap.querySelector("input");
 
   if(!input){
     showToast("Input not found");
@@ -1107,7 +1108,10 @@ async function addToGoal(id){
 
   const goal = state.goals.find(g => g.id == id);
 
-  if(!goal) return;
+  if(!goal){
+    showToast("Goal not found");
+    return;
+  }
 
   const newSaved = Number(goal.saved) + amount;
 
