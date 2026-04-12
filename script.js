@@ -592,13 +592,22 @@ function renderDashboard(){
   if(exceeded.length){
     document.getElementById('alert-banner-text').innerHTML = `⚠️ &nbsp;<strong>${exceeded.join(', ')}</strong> budget exceeded!`;
     banner.style.display='flex';
-    document.getElementById('notif-dot').style.display='block';
-    document.getElementById('alert-badge').textContent=exceeded.length;
+    const warningCount = Object.entries(spend).filter(([g,s])=>{
+  return state.budgets[g] && (s > state.budgets[g] || s > state.budgets[g]*0.8);
+}).length;
+
+document.getElementById('notif-dot').style.display = warningCount ? 'block' : 'none';
+document.getElementById('alert-badge').textContent = warningCount || '';
+document.getElementById('alert-badge').style.display = warningCount ? '' : 'none';
   } else {
     banner.style.display='none';
-    document.getElementById('notif-dot').style.display='none';
-    document.getElementById('alert-badge').textContent='0';
-    document.getElementById('alert-badge').style.display='none';
+    const warningCount = Object.entries(spend).filter(([g,s])=>{
+  return state.budgets[g] && (s > state.budgets[g] || s > state.budgets[g]*0.8);
+}).length;
+
+document.getElementById('notif-dot').style.display = warningCount ? 'block' : 'none';
+document.getElementById('alert-badge').textContent = warningCount || '';
+document.getElementById('alert-badge').style.display = warningCount ? '' : 'none';
   }
 
   // Chart
