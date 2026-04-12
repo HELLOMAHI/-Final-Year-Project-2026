@@ -1281,7 +1281,27 @@ async function saveExpense(){
   
   commitExpense({id:uid(),type:'expense',category:cat,amount:amt,desc,date});
 }
+function toggleTheme(){
 
+  document.body.classList.toggle("dark");
+
+  const darkOn = document.body.classList.contains("dark");
+
+  localStorage.setItem("theme", darkOn ? "dark" : "light");
+
+  document.getElementById("theme-btn").textContent = darkOn ? "☀️" : "🌙";
+}
+
+function loadTheme(){
+
+  const saved = localStorage.getItem("theme");
+
+  if(saved === "dark"){
+    document.body.classList.add("dark");
+    const btn = document.getElementById("theme-btn");
+    if(btn) btn.textContent = "☀️";
+  }
+}
 function confirmExpense(){
   closeModal('mod-warn');
   if(state.pendingExpense){ commitExpense(state.pendingExpense); state.pendingExpense=null; }
@@ -1491,5 +1511,5 @@ client.auth.onAuthStateChange((event, session) => {
     showAuth('page-login');
   }
 });
-
+loadTheme();
 window.getReportAI = getReportAI;
