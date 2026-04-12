@@ -649,7 +649,24 @@ body.dark #cal-headers{
 }
 
 #txn-filter{
-  width:140px;
+  width:120px;
   height:38px;
+  padding:0 34px 0 14px;
   flex-shrink:0;
+
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+
+  background:#1e293b;
+  color:#fff;
+  border:1px solid #14b8a6;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 12px center;
+  background-size:12px;
 }
