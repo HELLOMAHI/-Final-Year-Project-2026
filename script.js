@@ -963,7 +963,7 @@ async function exportPDF(){
       </div>
 
       <!-- TABLE -->
-      <h3 style="color:#334155;">All Transactions</h3>
+      <h3 style="color:#334155;">Top 5 Biggest Expenses</h3>
 
       <table style="width:100%; border-collapse: collapse;">
         <tr style="background:#f1f5f9;">
