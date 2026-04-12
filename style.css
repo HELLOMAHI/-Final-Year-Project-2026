@@ -716,3 +716,29 @@ body.dark #cal-headers{
     padding:10px 14px;
   }
 }
+.menu-btn{
+  display:none;
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  background:var(--white);
+  border-radius:10px;
+  font-size:20px;
+  cursor:pointer;
+}
+
+@media (max-width:768px){
+
+  .menu-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .sidebar{
+    width:260px;
+    left:0;
+    top:0;
+    bottom:0;
+  }
+}

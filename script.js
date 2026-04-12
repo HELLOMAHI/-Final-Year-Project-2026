@@ -109,7 +109,9 @@ function spendByGroup(){
   });
   return map;
 }
-
+function toggleSidebar(){
+  document.querySelector(".sidebar").classList.toggle("show");
+}
 function totalIncome(){
   return state.transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
 }
