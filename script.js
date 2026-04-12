@@ -448,7 +448,8 @@ async function enterApp(){
 
   // 🔥 LOAD DATA FROM DATABASE
   await loadTransactionsFromDB();
-
+  await loadBudgetsFromDB();
+  await loadGoalsFromDB();
   updateUserUI();
 
   // Set today's date on modals
@@ -797,17 +798,62 @@ function renderBudgetSettings(){
     </div>`).join('');
   renderBudgetBars('budget-usage-list');
 }
+async function loadBudgetsFromDB(){
+  const { data: sessionData } = await client.auth.getSession();
+  const user = sessionData.session.user;
 
-function saveBudgets(){
-  BUDGET_CATS.forEach(g=>{
-    const el=document.getElementById('bs-'+g.replace(/[^a-z]/gi,''));
-    if(el) state.budgets[g]=+el.value||0;
+  const { data, error } = await client
+    .from("budgets")
+    .select("*")
+    .eq("user_id", user.id);
+
+  if(error){
+    console.log(error.message);
+    return;
+  }
+
+  state.budgets = {};
+
+  data.forEach(item=>{
+    state.budgets[item.category] = item.amount;
   });
-  saveUserData();
-  renderBudgetBars('budget-usage-list');
+}
+
+async function saveBudgets(){
+  const { data: sessionData } = await client.auth.getSession();
+  const user = sessionData.session.user;
+
+  for(const category in state.budgets){
+
+    await client
+      .from("budgets")
+      .upsert({
+        user_id: user.id,
+        category: category,
+        amount: state.budgets[category]
+      }, {
+        onConflict: "user_id,category"
+      });
+  }
   showToast('Budgets saved! ✓');
 }
 
+async function loadGoalsFromDB(){
+  const { data: sessionData } = await client.auth.getSession();
+  const user = sessionData.session.user;
+
+  const { data, error } = await client
+    .from("goals")
+    .select("*")
+    .eq("user_id", user.id);
+
+  if(error){
+    console.log(error.message);
+    return;
+  }
+
+  state.goals = data;
+}
 
 async function exportPDF(){
 
@@ -913,16 +959,32 @@ async function exportPDF(){
 // ════════════════════════════════════════
 //  SAVINGS GOALS
 // ════════════════════════════════════════
-function addGoal(){
-  const name=document.getElementById('g-name').value.trim();
-  const target=+document.getElementById('g-target').value;
-  const saved=+document.getElementById('g-saved').value||0;
-  if(!name||!target){ showToast('Please fill in goal name and target.','warn'); return; }
-  state.goals.push({id:uid(),name,target,saved});
-  saveUserData();
-  document.getElementById('g-name').value='';
-  document.getElementById('g-target').value='';
-  document.getElementById('g-saved').value='';
+async function addGoal(){
+
+  const name = document.getElementById("g-name").value;
+  const target = +document.getElementById("g-target").value;
+  const saved = +document.getElementById("g-saved").value;
+
+  const { data: sessionData } = await client.auth.getSession();
+  const user = sessionData.session.user;
+
+  const { error } = await client
+    .from("goals")
+    .insert([
+      {
+        user_id: user.id,
+        name: name,
+        target: target,
+        saved: saved
+      }
+    ]);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  await loadGoalsFromDB();
   renderGoals();
 }
 
