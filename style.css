@@ -643,37 +643,35 @@ body.dark #cal-headers{
 }
 
 /* =========================
-   PREMIUM DARK MODE
+   REAL PREMIUM DARK MODE
 ========================= */
 
 body.dark{
-  --cream:#070b14;
+  --cream:#081120;
   --white:#0f172a;
   --text:#f8fafc;
   --muted:#94a3b8;
-  --border:#1e293b;
-  background:linear-gradient(135deg,#050816,#0b1120,#111827);
-  color:var(--text);
+  --border:#243244;
+  background:#081120;
 }
 
-/* Main Layout */
+/* App backgrounds */
+body.dark,
 body.dark .main,
 body.dark .page{
-  background:transparent;
+  background:#081120 !important;
 }
 
 /* Sidebar */
 body.dark .sidebar{
-  background:rgba(8,15,30,.95);
-  border-right:1px solid rgba(255,255,255,.04);
-  box-shadow:0 0 25px rgba(0,0,0,.35);
+  background:linear-gradient(180deg,#081120,#0b1326) !important;
+  border-right:1px solid #1e293b;
 }
 
 /* Topbar */
 body.dark .topbar{
-  background:rgba(15,23,42,.82);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(255,255,255,.05);
+  background:#0f172a !important;
+  border-bottom:1px solid #1e293b;
 }
 
 /* Cards */
@@ -682,43 +680,29 @@ body.dark .stat-card,
 body.dark .goal-card,
 body.dark .quick-add,
 body.dark .ai-card{
-  background:rgba(15,23,42,.78);
-  backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,.05);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.28),
-    inset 0 1px 0 rgba(255,255,255,.03);
+  background:#0f172a !important;
+  border:1px solid #1e293b !important;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
 
-/* Hover cards */
+/* Hover */
 body.dark .card:hover,
 body.dark .stat-card:hover{
-  transform:translateY(-4px);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,.38),
-    0 0 0 1px rgba(20,184,166,.12);
+  transform:translateY(-3px);
+  box-shadow:0 18px 35px rgba(0,0,0,.35);
 }
 
 /* Buttons */
-body.dark .btn-teal,
-body.dark .auth-btn{
-  background:linear-gradient(135deg,#14b8a6,#0d9488);
-  box-shadow:0 8px 18px rgba(20,184,166,.22);
-}
-
 body.dark .btn-outline,
-body.dark .theme-toggle,
-body.dark .notif-btn{
-  background:#111827;
-  color:#f8fafc;
-  border:1px solid #334155;
+body.dark .notif-btn,
+body.dark .theme-toggle{
+  background:#111827 !important;
+  color:#fff !important;
+  border:1px solid #334155 !important;
 }
 
-body.dark .btn-outline:hover,
-body.dark .theme-toggle:hover,
-body.dark .notif-btn:hover{
-  background:#1e293b;
-  transform:translateY(-2px);
+body.dark .btn-teal{
+  background:linear-gradient(135deg,#14b8a6,#0d9488) !important;
 }
 
 /* Inputs */
@@ -727,55 +711,31 @@ body.dark select,
 body.dark textarea,
 body.dark .form-input,
 body.dark .budget-set-input{
-  background:#0b1220;
-  color:#f8fafc;
-  border:1px solid #334155;
+  background:#111827 !important;
+  color:#fff !important;
+  border:1px solid #334155 !important;
 }
 
-body.dark input:focus,
-body.dark select:focus,
-body.dark textarea:focus{
-  border-color:#14b8a6;
-  box-shadow:0 0 0 4px rgba(20,184,166,.12);
+/* Text */
+body.dark .card-title,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark .txn-name,
+body.dark .budget-set-name{
+  color:#f8fafc !important;
 }
 
-/* Progress bars */
-body.dark .prog{
-  background:#111827;
+body.dark .card-sub,
+body.dark .txn-cat,
+body.dark .stat-sub,
+body.dark p,
+body.dark span{
+  color:#94a3b8;
 }
 
-/* Transactions */
-body.dark .txn-item{
-  border-bottom:1px solid rgba(255,255,255,.04);
-}
-
-/* Nav active */
+/* Active nav */
 body.dark .nav-item.active{
-  background:linear-gradient(90deg,rgba(20,184,166,.18),rgba(20,184,166,.08));
-  color:#2dd4bf;
-}
-
-/* Scrollbar */
-body.dark ::-webkit-scrollbar{
-  width:8px;
-}
-
-body.dark ::-webkit-scrollbar-track{
-  background:#0b1120;
-}
-
-body.dark ::-webkit-scrollbar-thumb{
-  background:#334155;
-  border-radius:20px;
-}
-
-body.dark ::-webkit-scrollbar-thumb:hover{
-  background:#475569;
-}
-*{
-  transition:
-    background-color .25s ease,
-    color .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
+  background:#102c2b !important;
+  color:#2dd4bf !important;
 }
