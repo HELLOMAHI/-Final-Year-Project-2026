@@ -444,7 +444,9 @@ async function enterApp(){
     a.style.display='none';
   });
 
-  document.getElementById('app').style.display='flex';
+  document.getElementById('alert-badge').style.display='none';
+document.getElementById('notif-dot').style.display='none';
+document.getElementById('app').style.display='flex';
 
   // 🔥 LOAD DATA FROM DATABASE
   await loadTransactionsFromDB();
@@ -459,6 +461,7 @@ async function enterApp(){
 
   const savedPage = localStorage.getItem('currentPage') || 'pg-dashboard';
   navigate(savedPage);
+  renderAlerts();
   setTimeout(() => {
   const pdfBtn = document.getElementById('pdf-btn');
 
