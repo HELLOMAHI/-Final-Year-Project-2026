@@ -1091,10 +1091,19 @@ function renderGoals(){
 
 async function addToGoal(id){
 
-  const input = document.getElementById("goal-add-" + id);
+  const input = document.querySelector(`[id="gs-add-${id}"]`);
+
+  if(!input){
+    showToast("Input not found");
+    return;
+  }
+
   const amount = Number(input.value) || 0;
 
-  if(amount <= 0) return;
+  if(amount <= 0){
+    showToast("Enter valid amount");
+    return;
+  }
 
   const goal = state.goals.find(g => g.id == id);
 
@@ -1116,7 +1125,7 @@ async function addToGoal(id){
 
   renderGoals();
 
-  showToast("Goal updated ✓");
+  showToast("Amount added ✓");
 }
 function deleteGoal(id){
   state.goals=state.goals.filter(g=>g.id!==id);
