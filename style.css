@@ -649,7 +649,7 @@ body.dark #cal-headers{
 }
 
 #txn-filter{
-  width:120px;
+  width:100px;
   height:38px;
   padding:0 34px 0 14px;
   flex-shrink:0;
