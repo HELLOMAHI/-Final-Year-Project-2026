@@ -587,6 +587,10 @@ function renderDashboard(){
   // Alert banner
   const spend = spendByGroup();
   let exceeded=[];
+
+document.getElementById('alert-badge').style.display='none';
+document.getElementById('alert-badge').textContent='';
+document.getElementById('notif-dot').style.display='none';
   Object.entries(spend).forEach(([g,s])=>{ if(state.budgets[g]&&s>state.budgets[g]) exceeded.push(g); });
   const banner=document.getElementById('alert-banner');
   if(exceeded.length){
