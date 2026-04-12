@@ -578,3 +578,36 @@ body.dark{
   --shadow:0 4px 24px rgba(0,0,0,.35);
   --shadow-sm:0 2px 8px rgba(0,0,0,.25);
 }
+/* DARK MODE INPUT FIX */
+body.dark .form-input,
+body.dark .form-select,
+body.dark .budget-set-input,
+body.dark input,
+body.dark select,
+body.dark textarea{
+  background:#1e293b;
+  color:#f8fafc;
+  border:1px solid #475569;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder{
+  color:#94a3b8;
+}
+
+body.dark .pfx .sym{
+  color:#cbd5e1;
+}
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus{
+  border-color:#14b8a6;
+  box-shadow:0 0 0 3px rgba(20,184,166,.15);
+}
+body.dark .card,
+body.dark .goal-card,
+body.dark .quick-add,
+body.dark .stat-card{
+  background:#111827;
+}
