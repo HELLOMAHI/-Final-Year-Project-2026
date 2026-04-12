@@ -670,3 +670,49 @@ body.dark #cal-headers{
   background-position:right 12px center;
   background-size:12px;
 }
+
+@media (max-width: 768px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    position:fixed;
+    z-index:999;
+    transition:0.3s ease;
+  }
+
+  .sidebar.show{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0 !important;
+    width:100%;
+  }
+
+  .stats-grid,
+  .content-grid,
+  .reports-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .topbar{
+    padding:12px;
+    flex-wrap:wrap;
+    gap:10px;
+    height:auto;
+  }
+
+  .topbar-right{
+    width:100%;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+  }
+
+  .card{
+    margin-bottom:14px;
+  }
+
+  .btn{
+    padding:10px 14px;
+  }
+}
