@@ -519,7 +519,7 @@ function updateUserUI(){
 //  NAVIGATION
 // ════════════════════════════════════════
 const PAGE_TITLES = {
-  'pg-dashboard':'Dashboard','pg-income':'Income','pg-expenses':'Expenses',
+  'pg-dashboard':'Dashboard','pg-income':'Income','pg-expenses':'Expenses','pg-transactions':'Transactions',
   'pg-budget':'Budget','pg-savings':'Savings Goals','pg-reports':'Reports & Analytics',
   'pg-calendar':'Calendar','pg-alerts':'Alerts','pg-profile':'My Profile'
 };
@@ -557,6 +557,7 @@ function renderPage(id){
   if(id==='pg-dashboard')  renderDashboard();
   if(id==='pg-income')     renderIncome();
   if(id==='pg-expenses')   renderExpenses();
+  if(id==='pg-transactions') renderTransactions();
   if(id==='pg-budget')     renderBudgetSettings();
   if(id==='pg-savings')    renderGoals();
   if(id==='pg-reports')    renderReports();
@@ -785,7 +786,28 @@ function renderExpenses(){
 </div>
     </div>`).join('');
 }
+// ════════════════════════════════════════
+//  TRANSACTIONS PAGE
+// ════════════════════════════════════════
+function renderTransactions(){
 
+  const all = [...state.transactions]
+    .sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  const el = document.getElementById("transactions-list");
+
+  if(!all.length){
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="e-ico">📭</div>
+        <p>No transactions yet.</p>
+      </div>
+    `;
+    return;
+  }
+
+  el.innerHTML = all.map(txnHTML).join('');
+}
 // ════════════════════════════════════════
 //  BUDGET SETTINGS
 // ════════════════════════════════════════

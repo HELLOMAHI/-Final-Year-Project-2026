@@ -90,6 +90,7 @@
       <button class="nav-item active" data-page="pg-dashboard"><span class="ico">⊞</span><span>Dashboard</span></button>
       <button class="nav-item" data-page="pg-income"><span class="ico">💰</span><span>Income</span></button>
       <button class="nav-item" data-page="pg-expenses"><span class="ico">🧾</span><span>Expenses</span></button>
+      <button class="nav-item" data-page="pg-transactions"><span class="ico">📄</span><span>Transactions</span></button>
       <button class="nav-item" data-page="pg-budget"><span class="ico">📊</span><span>Budget</span></button>
       <button class="nav-item" data-page="pg-savings"><span class="ico">🎯</span><span>Savings Goals</span></button>
       <div class="nav-section">Insights</div>
@@ -142,7 +143,7 @@
             </div>
           </div>
           <div class="card">
-            <div class="card-header"><div><div class="card-title">Recent Transactions</div><div class="card-sub">Last 5 entries</div></div><button class="view-all" onclick="navigate('pg-expenses')">View All →</button></div>
+            <div class="card-header"><div><div class="card-title">Recent Transactions</div><div class="card-sub">Last 5 entries</div></div><button class="view-all" onclick="navigate('pg-transactions')">View All →</button></div>
             <div class="card-body" id="recent-txns"><div class="empty-state"><div class="e-ico">📭</div><p>No transactions yet. Add your first one!</p></div></div>
           </div>
         </div>
@@ -188,6 +189,21 @@
         <div class="card-body" id="expense-list"><div class="empty-state"><div class="e-ico">🧾</div><p>No expenses recorded yet.</p></div></div>
       </div>
     </div>
+
+    <!-- ── TRANSACTIONS ── -->
+<div class="page" id="pg-transactions">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">All Transactions</div>
+    </div>
+    <div class="card-body" id="transactions-list">
+      <div class="empty-state">
+        <div class="e-ico">📭</div>
+        <p>No transactions yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- ── BUDGET ── -->
     <div class="page" id="pg-budget">
