@@ -846,9 +846,13 @@ async function saveBudgets() {
   document.querySelectorAll(".budget-set-input").forEach(input => {
     const category = input.dataset.category;
     const amount = Number(input.value) || 0;
-
     state.budgets[category] = amount;
   });
+
+  renderBudgetSettings();
+  renderDashboard();
+
+  showToast("Budgets saved! ✓");
 
   const { data: sessionData } = await client.auth.getSession();
   const user = sessionData.session.user;
@@ -865,10 +869,6 @@ async function saveBudgets() {
       }
     );
   }
-
-  renderBudgetSettings();
-  renderDashboard();
-  showToast('Budgets saved! ✓');
 }
 
 async function loadGoalsFromDB(){
