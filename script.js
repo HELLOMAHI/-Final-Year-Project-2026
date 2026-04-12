@@ -1104,24 +1104,16 @@ function renderReports(){
       <div style="display:flex;justify-content:space-between;padding:10px 0;"><span style="font-weight:600;">Savings Rate</span><span style="font-weight:700;">${inc>0?Math.round((inc-exp)/inc*100):0}%</span></div>
     </div>`;
 
-  // All transactions
-  const all=[...state.transactions].sort((a,b)=>new Date(b.date)-new Date(a.date));
- const topExpenses = state.transactions
-  .filter(t => t.type === "expense")
-  .sort((a, b) => b.amount - a.amount)
-  .slice(0, 5);
+  // Top 5 Biggest Expenses
+  const topExpenses = [...state.transactions]
+    .filter(t => t.type === "expense")
+    .sort((a, b) => b.amount - a.amount)
+    .slice(0, 5);
 
-const reportEl = document.getElementById("all-txns-report");
-
-if (!topExpenses.length) {
-  reportEl.innerHTML = `
-    <div class="empty-state">
-      <div class="e-ico">📭</div>
-      <p>No expenses yet.</p>
-    </div>
-  `;
-} else {
-  reportEl.innerHTML = topExpenses.map(txnHTML).join("");
+  document.getElementById('all-txns-report').innerHTML =
+    topExpenses.length
+      ? topExpenses.map(txnHTML).join('')
+      : '<div class="empty-state"><div class="e-ico">📭</div><p>No expenses yet.</p></div>';
 }
 
 function polarToXY(cx,cy,r,angle){
