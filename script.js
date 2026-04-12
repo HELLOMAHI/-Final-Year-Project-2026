@@ -1106,7 +1106,22 @@ function renderReports(){
 
   // All transactions
   const all=[...state.transactions].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  document.getElementById('all-txns-report').innerHTML=all.length?all.map(txnHTML).join(''):'<div class="empty-state"><div class="e-ico">📭</div><p>No transactions yet.</p></div>';
+ const topExpenses = state.transactions
+  .filter(t => t.type === "expense")
+  .sort((a, b) => b.amount - a.amount)
+  .slice(0, 5);
+
+const reportEl = document.getElementById("all-txns-report");
+
+if (!topExpenses.length) {
+  reportEl.innerHTML = `
+    <div class="empty-state">
+      <div class="e-ico">📭</div>
+      <p>No expenses yet.</p>
+    </div>
+  `;
+} else {
+  reportEl.innerHTML = topExpenses.map(txnHTML).join("");
 }
 
 function polarToXY(cx,cy,r,angle){
