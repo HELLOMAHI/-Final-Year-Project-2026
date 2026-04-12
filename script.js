@@ -791,8 +791,19 @@ function renderExpenses(){
 // ════════════════════════════════════════
 function renderTransactions(){
 
-  const all = [...state.transactions]
-    .sort((a,b) => new Date(b.date) - new Date(a.date));
+  const filter = document.getElementById("txn-filter")?.value || "all";
+
+  let all = [...state.transactions];
+
+  if(filter === "income"){
+    all = all.filter(t => t.type === "income");
+  }
+
+  if(filter === "expense"){
+    all = all.filter(t => t.type === "expense");
+  }
+
+  all.sort((a,b) => new Date(b.date) - new Date(a.date));
 
   const el = document.getElementById("transactions-list");
 
@@ -800,7 +811,7 @@ function renderTransactions(){
     el.innerHTML = `
       <div class="empty-state">
         <div class="e-ico">📭</div>
-        <p>No transactions yet.</p>
+        <p>No transactions found.</p>
       </div>
     `;
     return;
