@@ -778,7 +778,9 @@ function renderIncome(){
 //  EXPENSES PAGE
 // ════════════════════════════════════════
 function renderExpenses(){
-  const expenses=[...state.transactions].filter(t=>t.type==='expense').sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const expenses = [...state.transactions]
+  .filter(t => String(t.type).toLowerCase() === 'expense')
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
   const el=document.getElementById('expense-list');
   if(!expenses.length){ el.innerHTML='<div class="empty-state"><div class="e-ico">🧾</div><p>No expenses recorded yet.</p></div>'; return; }
   el.innerHTML=expenses.map(t=>`
@@ -786,7 +788,7 @@ function renderExpenses(){
       <div class="txn-ico" style="background:#fff7ed">${catIcon(t.category)}</div>
       <div class="txn-info"><div class="txn-name">${t.desc||t.category}</div><div class="txn-cat">${t.category} · ${t.date}</div></div>
       
-  <span class="txn-amt plus">+${fmt(t.amount)}</span>
+  <span class="txn-amt minus">-${fmt(t.amount)}</span>
 
   <button onclick="openEdit('${t.id}')" 
     title="Edit"
