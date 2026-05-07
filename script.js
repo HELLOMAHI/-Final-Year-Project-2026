@@ -426,17 +426,18 @@ async function loadTransactionsFromDB(){
 
   // 🔥 Replace local state with DB data
   state.transactions = data.map(t => ({
-    id: t.id,
-    type: t.type,
-    amount: t.amount,
-    category: t.category,
-    source: t.category, // reuse for income
-    desc: t.description,
-    date: t.created_at?.split("T")[0] || today()
-  }));
+  id: t.id,
+  type: String(t.type).toLowerCase(),
+  amount: Number(t.amount),
 
-  console.log("Loaded from DB:", state.transactions);
-}
+  category: t.type === 'expense' ? t.category : null,
+  source: t.type === 'income' ? t.category : null,
+
+  desc: t.description || '',
+  date: t.created_at
+    ? t.created_at.split("T")[0]
+    : today()
+}));
 
 async function enterApp(){
   document.querySelectorAll('.auth-wrap').forEach(a=>{
@@ -1444,7 +1445,7 @@ function openEdit(id){
   if(txn.type === "expense"){
     // 👉 expense
     document.getElementById('e-amount').value = txn.amount;
-    document.getElementById('e-cat').value = txn.category; // ✅ using cat
+    document.getElementById('e-cat').value = txn.cat; // ✅ using cat
     document.getElementById('e-desc').value = txn.desc;
 
     openModal('mod-expense');
@@ -1452,7 +1453,7 @@ function openEdit(id){
   } else {
     // 👉 income
     document.getElementById('i-amount').value = txn.amount;
-    document.getElementById('i-source').value = txn.source; // source = cat in your logic
+    document.getElementById('i-source').value = txn.cat; // source = cat in your logic
     document.getElementById('i-notes').value = txn.desc;
 
     openModal('mod-income');
@@ -1465,7 +1466,7 @@ async function updateTransaction(id, amount, category, description){
     .from('transactions')
     .update({
       amount: amount,
-      category: category,
+      category: category,   // DB column
       description: description
     })
     .eq('id', id);
@@ -1475,23 +1476,13 @@ async function updateTransaction(id, amount, category, description){
     return;
   }
 
-  // ✅ FIXED LOCAL STATE UPDATE
+  // 🔥 update local state (important for UI)
   const txn = state.transactions.find(t => t.id === id);
-
   if(txn){
     txn.amount = amount;
-    txn.category = category; // 🔥 was txn.cat before
-    txn.source = category;   // for income compatibility
+    txn.cat = category;
     txn.desc = description;
   }
-
-  // ✅ re-render everything
-  renderDashboard();
-
-  const cur = document.querySelector('.page.active');
-  if(cur) renderPage(cur.id);
-
-  showToast('Transaction updated ✓');
 }
 
 // ════════════════════════════════════════
