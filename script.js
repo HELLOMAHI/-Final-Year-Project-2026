@@ -778,9 +778,7 @@ function renderIncome(){
 //  EXPENSES PAGE
 // ════════════════════════════════════════
 function renderExpenses(){
-  const expenses = [...state.transactions]
-  .filter(t => String(t.type).toLowerCase() === 'expense')
-  .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const expenses=[...state.transactions].filter(t=>t.type==='expense').sort((a,b)=>new Date(b.date)-new Date(a.date));
   const el=document.getElementById('expense-list');
   if(!expenses.length){ el.innerHTML='<div class="empty-state"><div class="e-ico">🧾</div><p>No expenses recorded yet.</p></div>'; return; }
   el.innerHTML=expenses.map(t=>`
@@ -788,7 +786,7 @@ function renderExpenses(){
       <div class="txn-ico" style="background:#fff7ed">${catIcon(t.category)}</div>
       <div class="txn-info"><div class="txn-name">${t.desc||t.category}</div><div class="txn-cat">${t.category} · ${t.date}</div></div>
       
-  <span class="txn-amt minus">-${fmt(t.amount)}</span>
+  <span class="txn-amt plus">+${fmt(t.amount)}</span>
 
   <button onclick="openEdit('${t.id}')" 
     title="Edit"
@@ -1446,7 +1444,7 @@ function openEdit(id){
   if(txn.type === "expense"){
     // 👉 expense
     document.getElementById('e-amount').value = txn.amount;
-    document.getElementById('e-cat').value = txn.cat; // ✅ using cat
+    document.getElementById('e-cat').value = txn.category; // ✅ using cat
     document.getElementById('e-desc').value = txn.desc;
 
     openModal('mod-expense');
@@ -1454,7 +1452,7 @@ function openEdit(id){
   } else {
     // 👉 income
     document.getElementById('i-amount').value = txn.amount;
-    document.getElementById('i-source').value = txn.cat; // source = cat in your logic
+    document.getElementById('i-source').value = txn.source; // source = cat in your logic
     document.getElementById('i-notes').value = txn.desc;
 
     openModal('mod-income');
@@ -1467,7 +1465,7 @@ async function updateTransaction(id, amount, category, description){
     .from('transactions')
     .update({
       amount: amount,
-      category: category,   // DB column
+      category: category,
       description: description
     })
     .eq('id', id);
@@ -1477,13 +1475,23 @@ async function updateTransaction(id, amount, category, description){
     return;
   }
 
-  // 🔥 update local state (important for UI)
+  // ✅ FIXED LOCAL STATE UPDATE
   const txn = state.transactions.find(t => t.id === id);
+
   if(txn){
     txn.amount = amount;
-    txn.cat = category;
+    txn.category = category; // 🔥 was txn.cat before
+    txn.source = category;   // for income compatibility
     txn.desc = description;
   }
+
+  // ✅ re-render everything
+  renderDashboard();
+
+  const cur = document.querySelector('.page.active');
+  if(cur) renderPage(cur.id);
+
+  showToast('Transaction updated ✓');
 }
 
 // ════════════════════════════════════════
