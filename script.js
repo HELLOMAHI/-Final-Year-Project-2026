@@ -426,18 +426,17 @@ async function loadTransactionsFromDB(){
 
   // 🔥 Replace local state with DB data
   state.transactions = data.map(t => ({
-  id: t.id,
-  type: String(t.type).toLowerCase(),
-  amount: Number(t.amount),
+    id: t.id,
+    type: t.type,
+    amount: t.amount,
+    category: t.category,
+    source: t.category, // reuse for income
+    desc: t.description,
+    date: t.created_at?.split("T")[0] || today()
+  }));
 
-  category: t.type === 'expense' ? t.category : null,
-  source: t.type === 'income' ? t.category : null,
-
-  desc: t.description || '',
-  date: t.created_at
-    ? t.created_at.split("T")[0]
-    : today()
-}));
+  console.log("Loaded from DB:", state.transactions);
+}
 
 async function enterApp(){
   document.querySelectorAll('.auth-wrap').forEach(a=>{
