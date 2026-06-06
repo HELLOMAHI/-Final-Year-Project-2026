@@ -671,3 +671,13 @@ body.dark #cal-headers{
   background-size:12px;
 }
 
+body.dark .btn-outline{
+  color:#f8fafc;
+  border-color:#475569;
+}
+
+body.dark .btn-outline:hover{
+  background:#1e293b;
+  color:#ffffff;
+  border-color:#14b8a6;
+}
