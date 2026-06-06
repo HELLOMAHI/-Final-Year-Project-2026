@@ -114,8 +114,9 @@ function totalIncome(){
   return state.transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
 }
 function totalExpense(){
-  const now=new Date();const m=now.getMonth(),y=now.getFullYear();
-  return state.transactions.filter(t=>t.type==='expense'&&new Date(t.date).getMonth()===m&&new Date(t.date).getFullYear()===y).reduce((s,t)=>s+t.amount,0);
+  return state.transactions
+    .filter(t => t.type === 'expense')
+    .reduce((s,t) => s + t.amount, 0);
 }
 
 let isReportVisible = false;
