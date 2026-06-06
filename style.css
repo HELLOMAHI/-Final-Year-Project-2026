@@ -670,14 +670,21 @@ body.dark #cal-headers{
   background-position:right 12px center;
   background-size:12px;
 }
+body.dark .modal-footer{
+  background:#111827;
+  border-top:1px solid #334155;
+}
 
 body.dark .btn-outline{
+  background:#1e293b;
   color:#f8fafc;
-  border-color:#475569;
+  border:1px solid #475569;
 }
 
 body.dark .btn-outline:hover{
-  background:#1e293b;
+  background:#334155;
   color:#ffffff;
   border-color:#14b8a6;
 }
+
+
